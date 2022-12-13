@@ -19,8 +19,17 @@ public class Circle implements Shape {
         return circle;
     }
 
+    public double getPI() {
+        return PI;
+    }
+
+    public int getR() {
+        return r;
+    }
+
     public void createCircle(){
     }
+
     @JsonIgnore
     @Override
     public double getArea() {

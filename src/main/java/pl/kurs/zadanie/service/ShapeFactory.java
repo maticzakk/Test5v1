@@ -2,15 +2,6 @@ package pl.kurs.zadanie.service;
 
 public class ShapeFactory implements IShapeFactory{
 
-    private IShapeFactory shapeFactory;
-
-    public ShapeFactory(IShapeFactory shapeFactory) {
-        this.shapeFactory = shapeFactory;
-    }
-
-    public ShapeFactory() {
-    }
-
     @Override
     public Rectangle createRectangle(int width, int height) {
         return new Rectangle(width, height);

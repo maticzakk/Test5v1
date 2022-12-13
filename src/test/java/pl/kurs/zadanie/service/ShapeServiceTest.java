@@ -1,44 +1,36 @@
 package pl.kurs.zadanie.service;
 
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import pl.kurs.zadanie.exceptions.NoShapeException;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.*;
 
 public class ShapeServiceTest {
 
-    @Rule
-     public TemporaryFolder folder = new TemporaryFolder();
-
     ShapeService service;
-    @Mock ShapeFactory shapeFactory;
     List<Shape> shapeList;
     List<Shape> emptyList;
+    private String filePath;
 
     @Before
     public void init() {
-        MockitoAnnotations.openMocks(this);
         service = new ShapeService();
-
-        shapeList = new ArrayList<>();
-        shapeList.add(new Square(10)); //0
-        shapeList.add(new Square(20)); //1
-        shapeList.add(new Square(30)); //2
-        shapeList.add(new Square(40)); //3
-        shapeList.add(new Square(50)); //4
-        shapeList.add(new Square(60)); //5
-        shapeList.add(new Square(70)); //6
-
+        shapeList = Arrays.asList(
+                new Square(10), //0
+                new Square(20), //1
+                new Square(30), //2
+                new Square(40), //3
+                new Square(50), //4
+                new Square(60), //5
+                new Square(70) //6
+        );
+        filePath = "test.json";
     }
 
     @Test
@@ -61,12 +53,49 @@ public class ShapeServiceTest {
     @Test
     public void shouldReturnMaxPerimeterOfObjectList() throws NoShapeException {
         Shape maxPerimeterShape = service.maxPerimeter(shapeList, Square.class);
+        //sprawdzamy czy figura o najwiekszym obwodzie znajduje sie na indeksie 6
         assertEquals(maxPerimeterShape, shapeList.get(6));
+        //sprawdzamy czy figura jest danego typu
+        assertEquals(maxPerimeterShape.getClass(), Square.class);
+
     }
     @Test(expected = NoShapeException.class)
     public void shouldThrowNoShapeExceptionWhenListOfPerimeterIsEmpty() throws NoShapeException {
         Shape maxPerimeterShape = service.maxPerimeter(emptyList, Square.class);
-        Throwable exception = assertThrows(NoShapeException.class, () -> maxPerimeterShape.getPerimeter());
+        Throwable exception = assertThrows(NoShapeException.class, maxPerimeterShape::getPerimeter);
         assertEquals("Brak figury", exception.getMessage());
     }
+
+
+    @Test
+    public void shouldThrowIOExceptionMessage() {
+
+        String exp = "[{side=10.0, type=square}]";
+
+        String  file = "src/test/resources/shapeList.json";
+
+        boolean b = service.writeJson(shapeList, file);
+        assertTrue(exp, b);
+    }
+
+    @Test
+    public void checkMethodWhichWriteCorrectlyJson() {
+        boolean b = service.writeJson(shapeList, filePath);
+
+        File file = new File(filePath);
+        //sprawdzamy czy plik istnieje
+        assertTrue(file.exists());
+        assertTrue(String.valueOf(b), true);
+    }
+
+    @Test
+    public void shouldGetFiguresFromJsonFile() throws IOException {
+        List<Shape> shapes = service.readJsonFromFile(filePath);
+        //sprawdzamy czy zwrócona lista nie jest pusta
+        assertNotNull(shapes);
+        //sprawdzamy czy lista zawiera odpowiednią liczbę figur
+        assertEquals(7, shapeList.size());
+    }
+
+
 }

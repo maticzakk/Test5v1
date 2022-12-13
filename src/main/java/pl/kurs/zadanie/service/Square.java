@@ -1,6 +1,5 @@
 package pl.kurs.zadanie.service;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -20,6 +19,10 @@ public class Square implements Shape {
     }
 
     public void createSquare() {
+    }
+
+    public double getSide() {
+        return side;
     }
 
     @JsonIgnore
