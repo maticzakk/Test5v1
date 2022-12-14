@@ -20,7 +20,7 @@ target/
 *.ipr
 .target
 /target/
-
+.index.html
 
 # User-specific stuff
 .idea/**/workspace.xml
