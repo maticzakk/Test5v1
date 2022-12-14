@@ -18,7 +18,7 @@ public class ShapeServiceTest {
     ShapeService service;
     List<Shape> shapeList;
     List<Shape> emptyList;
-    private String filePath;
+    private String filePath = new String(filePath = "test.json");
 
     @Before
     public void init() {
@@ -32,7 +32,6 @@ public class ShapeServiceTest {
                 new Square(60), //5
                 new Square(70) //6
         );
-        filePath = "test.json";
     }
 
     @Test
