@@ -18,7 +18,7 @@ public class ShapeServiceTest {
     ShapeService service;
     List<Shape> shapeList;
     List<Shape> emptyList;
-    private String filePath = new String(filePath = "test.json");
+    private String filePath = "test.json";
 
     @Before
     public void init() {
