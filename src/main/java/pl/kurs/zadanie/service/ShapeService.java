@@ -28,13 +28,16 @@ public class ShapeService {
                 .orElseThrow(() -> new NoShapeException("Brak figury"));
     }
 
-    public boolean writeJson(List<Shape> shapeList, String filename) { //boolean
-        try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            objectMapper.writeValue(new File(filename), shapeList);
-        } catch (IOException e) {
-            System.out.println("Zły plik");
-        } return true;
+    public boolean writeJson(List<Shape> shapeList, String filename) throws NoShapeException, IOException { //boolean
+//        ObjectMapper objectMapper = new ObjectMapper();
+//        objectMapper.writeValue(new File(filename), shapeList);
+//        return true;
+        if (shapeList == null || shapeList.isEmpty()) {
+            throw new NoShapeException("Brak listy figur");
+        }
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.writeValue(new File(filename), shapeList);
+        return true;
     }
     public List<Shape> readJsonFromFile(String filename) throws IOException {
         File file = new File(filename);

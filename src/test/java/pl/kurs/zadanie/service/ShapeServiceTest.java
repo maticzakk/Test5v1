@@ -6,10 +6,12 @@ import pl.kurs.zadanie.exceptions.NoShapeException;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.*;
+
 
 public class ShapeServiceTest {
 
@@ -67,19 +69,15 @@ public class ShapeServiceTest {
     }
 
 
-    @Test
-    public void shouldThrowIOExceptionMessage() {
+    @Test(expected = NoShapeException.class)
+    public void shouldThrowIOExceptionMessage() throws IOException, NoShapeException {
 
-        String exp = "[{side=10.0, type=square}]";
-
-        String  file = "src/test/resources/shapeList.json";
-
-        boolean b = service.writeJson(shapeList, file);
-        assertTrue(exp, b);
+        List<Shape> shapes = new ArrayList<>();
+        service.writeJson(shapes, filePath);
     }
 
     @Test
-    public void checkMethodWhichWriteCorrectlyJson() {
+    public void checkMethodWhichWriteCorrectlyJson() throws IOException, NoShapeException {
         boolean b = service.writeJson(shapeList, filePath);
 
         File file = new File(filePath);
