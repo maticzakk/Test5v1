@@ -94,5 +94,8 @@ public class ShapeServiceTest {
         assertEquals(7, shapeList.size());
     }
 
-
+    @Test(expected = NoShapeException.class)
+    public void whenTheListIsNullThrowNoShapeException() throws IOException, NoShapeException {
+        service.writeJson(null, filePath);
+    }
 }
